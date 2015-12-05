@@ -1,0 +1,40 @@
+
+# setting
+autoload -Uz colors;colors
+autoload -Uz compinit;compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+setopt auto_cd
+export EDITOR=vim
+setopt auto_list
+setopt auto_menu
+setopt list_packed
+setopt list_types
+
+# alias
+alias ..='cd ..'
+alias ~='cd ~'
+alias npmls='npm -g ls --depth=0'
+
+# nvm
+source ~/.nvm/nvm.sh
+
+# rbenv
+export PATH=$HOME/.rbenv/bin:$PATH
+eval "$(rbenv init - zsh)"
+
+# zprezto
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# go
+export PATH=$HOME/go/bin:$PATH
+
+# function
+function peco-history-selection() {
+  BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+  CURSOR=$#BUFFER
+    zle reset-prompt
+}
+zle -N peco-history-selection
+bindkey '^R' peco-history-selection
