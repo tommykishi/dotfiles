@@ -39,10 +39,13 @@ function peco-history-selection() {
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
 
- autoload -Uz vcs_info
-
+# zsh-git
+autoload -Uz vcs_info
+#zstyle ':vcs_info:git:*' check-for-changes true
+#zstyle ':vcs_info:git:*' stagedstr "[%c|%b]"
+#zstyle ':vcs_info:git:*' unstagedstr "[%u|%b]"
 zstyle ':vcs_info:*' formats '[%b]'
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
+zstyle ':vcs_info:*' actionformats '[%a|%b]'
 precmd () {
   psvar=()
   LANG=en_US.UTF-8 vcs_info
