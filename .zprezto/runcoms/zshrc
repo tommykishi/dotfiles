@@ -13,7 +13,7 @@ setopt list_types
 # alias
 alias ..='cd ..'
 alias ~='cd ~'
-alias npmls='npm -g ls --depth=0'
+alias 'npmgls'='npm -g ls --depth=0'
 
 # nvm
 source ~/.nvm/nvm.sh
