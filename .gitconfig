@@ -18,3 +18,4 @@
 	default = simple
 [alias]
 	s = status -s
+	lg = log --oneline --decorate --all --graph
