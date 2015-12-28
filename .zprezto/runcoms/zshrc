@@ -1,4 +1,3 @@
-
 # setting
 autoload -Uz colors;colors
 autoload -Uz compinit;compinit
@@ -14,6 +13,9 @@ setopt list_types
 alias ..='cd ..'
 alias ~='cd ~'
 alias 'npmgls'='npm -g ls --depth=0'
+alias less='less -N'
+
+# export PATH=/usr/local/bin:$PATH
 
 # nvm
 source ~/.nvm/nvm.sh
@@ -52,3 +54,7 @@ precmd () {
   [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
 RPROMPT="%1(v|%F{green}%1v%f|)"
+
+export LESS='-R'
+export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+export VISUAL="/usr/bin/vi"
