@@ -1,7 +1,7 @@
 # setting
 autoload -Uz colors;colors
-autoload -Uz compinit;compinit
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+fpath=(/usr/local/share/zsh-completions $fpath)
+autoload -Uz compinit;compinit -u
 setopt auto_cd
 export EDITOR=vim
 setopt auto_list
@@ -9,38 +9,16 @@ setopt auto_menu
 setopt list_packed
 setopt list_types
 
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*:default' menu select=2
+
 # alias
 alias ..='cd ..'
 alias ~='cd ~'
 alias 'npmgls'='npm -g ls --depth=0'
 alias less='less -N'
 
-# export PATH=/usr/local/bin:$PATH
-
-# nvm
-source ~/.nvm/nvm.sh
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-. <(npm completion)
-
-# rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init - zsh)"
-
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# zprezto
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
-
-# go
-export PATH="$HOME/go/bin:$PATH"
-
-# function
+# peco-history 
 function peco-history-selection() {
   BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
   CURSOR=$#BUFFER
@@ -51,9 +29,6 @@ bindkey '^R' peco-history-selection
 
 # zsh-git
 autoload -Uz vcs_info
-#zstyle ':vcs_info:git:*' check-for-changes true
-#zstyle ':vcs_info:git:*' stagedstr "[%c|%b]"
-#zstyle ':vcs_info:git:*' unstagedstr "[%u|%b]"
 zstyle ':vcs_info:*' formats '[%b]'
 zstyle ':vcs_info:*' actionformats '[%a|%b]'
 precmd () {
@@ -63,6 +38,16 @@ precmd () {
 }
 RPROMPT="%1(v|%F{green}%1v%f|)"
 
+# less-coler
 export LESS='-R'
 export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 export VISUAL="/usr/bin/vi"
+
+# cdr
+autoload -Uz add-zsh-hook
+autoload -Uz chpwd_recent_dirs cdr
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent_dirs-max 20
+
+autoload -Uz zmv
+
